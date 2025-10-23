@@ -1,1 +1,1422 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Minister</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        .metric-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .bg-transition {
+            transition: background-color 1s ease-in-out;
+        }
+        
+        .popup {
+            animation: popupSlide 0.3s ease-out;
+        }
+        
+        @keyframes popupSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .reaction-animation {
+            animation: reactionBounce 0.6s ease-out;
+        }
+        
+        @keyframes reactionBounce {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .feed-item {
+            animation: feedSlide 0.4s ease-out;
+            border-bottom: 1px solid #e1e8ed;
+            padding: 12px 0;
+        }
+        
+        @keyframes feedSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .news-ticker {
+            animation: tickerScroll 15s linear infinite;
+        }
+        
+        @keyframes tickerScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .speech-bubble {
+            animation: bubbleFloat 0.5s ease-out;
+            position: absolute;
+            background: #1da1f2;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            z-index: 30;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #1da1f2;
+        }
+        
+        @keyframes bubbleFloat {
+            0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .press-toggle {
+            transition: all 0.3s ease;
+        }
+        
+        .press-toggle.active {
+            background-color: #1da1f2;
+            color: white;
+        }
+        
+        .twitter-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 0px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+        }
+        
+        .twitter-button {
+            border-radius: 0px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        
+        .twitter-button:hover {
+            transform: translateY(-1px);
+        }
 
+        .activity-item {
+            animation: activityFade 0.5s ease-in-out;
+            padding: 4px 8px;
+            background: rgba(0,0,0,0.02);
+        }
+
+        @keyframes activityFade {
+            0% { opacity: 0; transform: translateX(-10px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .trending-item {
+            transition: all 0.3s ease;
+        }
+
+        .trending-item.trending-spike {
+            animation: trendSpike 1s ease-in-out;
+        }
+
+        @keyframes trendSpike {
+            0% { background-color: transparent; }
+            50% { background-color: rgba(29, 161, 242, 0.1); }
+            100% { background-color: transparent; }
+        }
+
+        .trend-bar {
+            transition: width 0.5s ease-in-out;
+        }
+
+        .glitch-effect {
+            animation: glitch 0.3s ease-in-out;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .shake-effect {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid #1da1f2;
+            white-space: nowrap;
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #1da1f2; }
+        }
+
+        .vote-counter {
+            animation: countUp 2s ease-out;
+        }
+
+        @keyframes countUp {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .like-animation {
+            animation: likeHeart 0.6s ease-out;
+        }
+
+        @keyframes likeHeart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); color: #e91e63; }
+            100% { transform: scale(1); }
+        }
+
+        .comment-popup {
+            animation: commentSlide 0.3s ease-out;
+        }
+
+        @keyframes commentSlide {
+            0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .fund-warning {
+            animation: fundAlert 1s ease-in-out infinite;
+        }
+
+        @keyframes fundAlert {
+            0%, 100% { color: #dc2626; }
+            50% { color: #f59e0b; }
+        }
+
+        .chat-message {
+            animation: chatSlide 0.4s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes chatSlide {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-20px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+
+        .typing-indicator {
+            animation: typingPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes typingPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .chat-container {
+            scroll-behavior: smooth;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="bg-gray-50 min-h-full overflow-hidden" id="gameBody">
+  <div class="h-screen flex flex-col"><!-- Header -->
+   <header class="bg-white border-b border-gray-200 px-4 py-3">
+    <div class="flex justify-between items-center max-w-6xl mx-auto">
+     <h1 id="gameTitle" class="text-xl font-bold text-gray-900">Social Media Minister</h1>
+     <div class="flex gap-3"><a href="https://pump.fun" target="_blank" rel="noopener noreferrer" class="twitter-button bg-black hover:bg-gray-800 text-white px-4 py-2 text-sm">𝕏</a> <a href="https://pump.fun" target="_blank" rel="noopener noreferrer" class="twitter-button bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-sm">pump.fun</a>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <div class="flex-1 flex gap-6 p-4 max-w-6xl mx-auto w-full"><!-- Main Feed -->
+    <div class="flex-1 flex flex-col">
+     <div class="twitter-card p-6 mb-4 flex-1">
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center">🏛️ Government Dashboard</h2><!-- Social Media Feed -->
+      <div class="bg-gray-50 p-4 h-40 overflow-hidden mb-6 border">
+       <div class="text-gray-600 text-sm font-semibold mb-3 flex items-center">
+        📱 Public Timeline
+       </div>
+       <div id="socialFeed" class="text-gray-800 text-sm space-y-0">
+        <div class="feed-item">
+         👤 Citizens demand change!
+        </div>
+        <div class="feed-item">
+         💰 Economy is fine!
+        </div>
+        <div class="feed-item">
+         🗳️ Where is our leader?
+        </div>
+       </div>
+      </div><!-- Action Buttons -->
+      <div class="grid grid-cols-3 gap-4"><button id="hopefulBtn" class="twitter-button bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 text-sm"> 📢 Post Hope </button> <button id="blameBtn" class="twitter-button bg-orange-500 hover:bg-orange-600 text-white py-3 px-4 text-sm"> 👉 Blame Others </button> <button id="reformBtn" class="twitter-button bg-green-500 hover:bg-green-600 text-white py-3 px-4 text-sm"> 📋 Announce Reform </button>
+      </div>
+     </div>
+    </div><!-- Sidebar -->
+    <div class="w-64 space-y-4"><!-- Press Office -->
+     <div class="twitter-card p-4">
+      <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">📰 Press Office</h3>
+      <div class="space-y-3"><button id="silenceCritics" class="press-toggle w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 text-sm font-semibold border"> 🤐 Silence Critics </button> <button id="hireBots" class="press-toggle w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 text-sm font-semibold border"> 🤖 Hire Bots </button> <button id="pressConference" class="twitter-button w-full bg-purple-500 hover:bg-purple-600 text-white py-2 px-3 text-sm font-semibold"> 🎤 Press Conference </button> <button id="askAdvisor" class="twitter-button w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-3 text-sm font-semibold"> 💡 Ask Advisor </button>
+       <div class="bg-gray-50 p-3 mt-4 border">
+        <div class="text-gray-600 text-xs font-semibold mb-1">
+         Status
+        </div>
+        <div id="pressStatus" class="text-green-600 text-sm font-medium">
+         Normal
+        </div>
+       </div>
+      </div>
+     </div><!-- Campaign Fund -->
+     <div class="twitter-card p-4">
+      <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">💰 Campaign Fund</h3>
+      <div class="text-center">
+       <div id="campaignFund" class="text-2xl font-bold text-green-600">
+        $100K
+       </div>
+       <div class="text-xs text-gray-500 mt-1">
+        Available Budget
+       </div>
+      </div>
+     </div><!-- Trending Topics -->
+     <div class="twitter-card p-4">
+      <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">🔥 Trending</h3>
+      <div id="trendingTopics" class="space-y-2">
+       <div class="trending-item flex justify-between items-center p-2 rounded hover:bg-gray-50">
+        <div>
+         <div class="text-sm font-semibold text-blue-600">
+          #CrisisTok
+         </div>
+         <div class="text-xs text-gray-500">
+          12.5K posts
+         </div>
+        </div>
+        <div class="trend-graph w-8 h-4 bg-blue-100">
+         <div class="trend-bar bg-blue-500 h-full" style="width: 70%"></div>
+        </div>
+       </div>
+       <div class="trending-item flex justify-between items-center p-2 rounded hover:bg-gray-50">
+        <div>
+         <div class="text-sm font-semibold text-blue-600">
+          #PumpFunPolicy
+         </div>
+         <div class="text-xs text-gray-500">
+          8.2K posts
+         </div>
+        </div>
+        <div class="trend-graph w-8 h-4 bg-green-100">
+         <div class="trend-bar bg-green-500 h-full" style="width: 50%"></div>
+        </div>
+       </div>
+       <div class="trending-item flex justify-between items-center p-2 hover:bg-gray-50">
+        <div>
+         <div class="text-sm font-semibold text-blue-600">
+          #AIRevolt
+         </div>
+         <div class="text-xs text-gray-500">
+          15.8K posts
+         </div>
+        </div>
+        <div class="trend-graph w-8 h-4 bg-red-100">
+         <div class="trend-bar bg-red-500 h-full" style="width: 90%"></div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Activity Feed -->
+     <div class="twitter-card p-4">
+      <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">📊 Live Activity</h3>
+      <div id="activityFeed" class="space-y-2 text-sm">
+       <div class="activity-item text-green-600">
+        +200 new followers
+       </div>
+       <div class="activity-item text-blue-600">
+        Trending on #Politics
+       </div>
+       <div class="activity-item text-orange-600">
+        Media attention rising
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Metrics -->
+   <div class="twitter-card p-4 mb-4 max-w-6xl mx-auto">
+    <div class="grid grid-cols-3 gap-6 text-center">
+     <div>
+      <div class="text-gray-700 font-semibold mb-2 text-sm">
+       👥 Followers
+      </div>
+      <div class="bg-gray-200 h-3">
+       <div id="followersBar" class="metric-bar bg-blue-500 h-3" style="width: 50%"></div>
+      </div>
+      <div id="followersText" class="text-blue-600 text-sm mt-2 font-semibold">
+       50K
+      </div>
+     </div>
+     <div>
+      <div class="text-gray-700 font-semibold mb-2 text-sm">
+       👍 Approval
+      </div>
+      <div class="bg-gray-200 h-3">
+       <div id="approvalBar" class="metric-bar bg-green-500 h-3" style="width: 60%"></div>
+      </div>
+      <div id="approvalText" class="text-green-600 text-sm mt-2 font-semibold">
+       60%
+      </div>
+     </div>
+     <div>
+      <div class="text-gray-700 font-semibold mb-2 text-sm">
+       ⚠️ Scandal Level
+      </div>
+      <div class="bg-gray-200 h-3">
+       <div id="scandalBar" class="metric-bar bg-red-500 h-3" style="width: 20%"></div>
+      </div>
+      <div id="scandalText" class="text-red-600 text-sm mt-2 font-semibold">
+       20%
+      </div>
+     </div>
+    </div>
+   </div><!-- News Ticker -->
+   <div class="bg-blue-50 border border-blue-200 p-3 overflow-hidden max-w-6xl mx-auto">
+    <div class="flex items-center">
+     <div class="text-blue-600 font-semibold text-sm mr-4 whitespace-nowrap">
+      📺 Breaking News
+     </div>
+     <div class="flex-1 overflow-hidden">
+      <div id="newsTicker" class="news-ticker text-blue-800 text-sm whitespace-nowrap">
+       Minister posts another meme! • Citizens confused by latest policy • Opposition demands answers •
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Popup Overlay -->
+  <div id="popupOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+   <div id="popupContent" class="popup bg-white p-6 max-w-md mx-4 text-center shadow-xl border">
+    <div id="popupTitle" class="text-xl font-bold mb-3 text-gray-900"></div>
+    <div id="popupMessage" class="text-gray-700 mb-4"></div>
+    <div id="popupReaction" class="reaction-animation text-2xl mb-4"></div><button id="popupClose" class="twitter-button bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 font-semibold"> Continue </button>
+   </div>
+  </div><!-- Press Conference Popup -->
+  <div id="pressConferenceOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+   <div class="popup bg-white p-6 max-w-md mx-4 text-center shadow-xl border">
+    <div class="text-2xl mb-4">
+     🎤
+    </div>
+    <div class="text-xl font-bold text-gray-900 mb-4">
+     Press Conference
+    </div>
+    <div class="text-gray-600 mb-6">
+     Choose your statement:
+    </div>
+    <div class="space-y-3"><button class="press-statement w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 font-semibold" data-statement="control"> "We are in control" </button> <button class="press-statement w-full bg-green-500 hover:bg-green-600 text-white py-3 px-4 font-semibold" data-statement="fine"> "Everything is fine" </button> <button class="press-statement w-full bg-purple-500 hover:bg-purple-600 text-white py-3 px-4 font-semibold" data-statement="next"> "Next question" </button>
+    </div><button id="closePressConference" class="mt-4 text-gray-500 hover:text-gray-700 text-sm">Cancel</button>
+   </div>
+  </div><!-- Advisor Popup -->
+  <div id="advisorOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+   <div class="popup bg-white p-6 max-w-md mx-4 shadow-xl border">
+    <div class="text-2xl mb-4 text-center">
+     💡
+    </div>
+    <div class="text-xl font-bold text-gray-900 mb-4 text-center">
+     Political Advisor
+    </div>
+    <div id="advisorText" class="text-gray-700 mb-6 min-h-16"></div><button id="closeAdvisor" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 font-semibold"> Got it </button>
+   </div>
+  </div><!-- Comment Popup -->
+  <div id="commentOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+   <div class="comment-popup bg-white p-6 max-w-md mx-4 shadow-xl border">
+    <div class="text-xl font-bold text-gray-900 mb-4">
+     Public Reactions
+    </div>
+    <div id="commentsList" class="space-y-3 mb-6"><!-- Comments will be populated here -->
+    </div><button id="closeComments" class="w-full bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 font-semibold"> Close </button>
+   </div>
+  </div><!-- Fund Warning Popup -->
+  <div id="fundWarningOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+   <div class="popup bg-white rounded-2xl p-6 max-w-md mx-4 text-center shadow-xl shake-effect">
+    <div class="text-3xl mb-4">
+     💸
+    </div>
+    <div class="text-xl font-bold text-red-600 mb-4">
+     Campaign Fund Depleted!
+    </div>
+    <div class="text-gray-700 mb-6">
+     You've run out of money! Your political influence is severely limited.
+    </div><button id="closeFundWarning" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl font-semibold"> Continue Anyway </button>
+   </div>
+  </div><!-- Election Mode Popup -->
+  <div id="electionOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+   <div class="popup bg-white rounded-2xl p-8 max-w-lg mx-4 text-center shadow-xl">
+    <div class="text-3xl mb-4">
+     🗳️
+    </div>
+    <div class="text-2xl font-bold text-gray-900 mb-4">
+     Election Results
+    </div>
+    <div class="text-gray-600 mb-6">
+     Final vote count:
+    </div>
+    <div class="space-y-3 mb-6">
+     <div class="flex justify-between items-center"><span>Your Party:</span> <span id="yourVotes" class="vote-counter font-bold text-blue-600">0%</span>
+     </div>
+     <div class="flex justify-between items-center"><span>Opposition:</span> <span id="oppositionVotes" class="vote-counter font-bold text-red-600">0%</span>
+     </div>
+    </div>
+    <div id="electionResult" class="text-lg font-bold mb-6"></div><button id="restartFromElection" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold text-lg"> 🔄 New Campaign </button>
+   </div>
+  </div><!-- Final Crisis Popup -->
+  <div id="crisisOverlay" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+   <div class="popup bg-white rounded-2xl p-8 max-w-lg mx-4 text-center shadow-xl">
+    <div class="text-3xl mb-4">
+     🚨
+    </div>
+    <div class="text-2xl font-bold text-red-600 mb-4">
+     Crisis Escalates
+    </div>
+    <div id="crisisMessage" class="text-gray-700 mb-6">
+     You're trending for all the wrong reasons.
+    </div><button id="restartBtn" class="twitter-button bg-red-500 hover:bg-red-600 text-white px-8 py-3 font-semibold text-lg"> 🔄 Restart Game </button>
+   </div>
+  </div>
+  <script>
+        // Game state
+        let gameState = {
+            followers: 50,
+            approval: 60,
+            scandal: 20,
+            interactions: 0,
+            silenceCriticsActive: false,
+            hireBotsActive: false,
+            campaignFund: 100,
+            electionTriggered: false
+        };
+
+        const defaultConfig = {
+            game_title: "SOCIAL MEDIA MINISTER",
+            crisis_message: "You're trending for all the wrong reasons."
+        };
+
+        // Chat messages data
+        const chatUsers = [
+            { name: "Anonymous_User_1", avatar: "A", color: "bg-blue-500" },
+            { name: "Citizen_2024", avatar: "C", color: "bg-green-500" },
+            { name: "VoterMom", avatar: "V", color: "bg-purple-500" },
+            { name: "TruthSeeker", avatar: "T", color: "bg-red-500" },
+            { name: "PolicyWonk", avatar: "P", color: "bg-yellow-500" },
+            { name: "SkepticalSarah", avatar: "S", color: "bg-pink-500" },
+            { name: "HopefulHank", avatar: "H", color: "bg-indigo-500" },
+            { name: "ConcernedCitizen", avatar: "C", color: "bg-orange-500" },
+            { name: "YoungVoter", avatar: "Y", color: "bg-teal-500" },
+            { name: "ElderlyWisdom", avatar: "E", color: "bg-gray-500" }
+        ];
+
+        const chatMessages = {
+            positive: [
+                "Finally someone taking action!",
+                "This is what we needed!",
+                "Great leadership in tough times",
+                "I support this decision 100%",
+                "About time someone listened to us",
+                "This gives me hope for the future",
+                "Excellent work, keep it up!",
+                "Finally a politician who cares",
+                "This is the change we voted for",
+                "Brilliant strategy, well done!"
+            ],
+            negative: [
+                "This is complete chaos!",
+                "What are they even doing?",
+                "I don't trust any of this",
+                "More empty promises as usual",
+                "When will this madness end?",
+                "This is getting ridiculous",
+                "We need new leadership NOW",
+                "Stop lying to us!",
+                "This is a disaster waiting to happen",
+                "I'm losing faith in democracy"
+            ],
+            neutral: [
+                "What's the latest update?",
+                "Can someone explain what's happening?",
+                "I'm so confused by all this",
+                "Anyone else watching this unfold?",
+                "This is wild to watch live",
+                "Politics is crazy these days",
+                "What do you all think about this?",
+                "Just tuning in, what did I miss?",
+                "This is better than reality TV",
+                "History in the making right here"
+            ],
+            scandal: [
+                "Did you see that leaked video?!",
+                "The corruption runs deep...",
+                "This scandal keeps getting worse",
+                "How is this even legal?",
+                "Someone needs to investigate this",
+                "The truth is finally coming out",
+                "I can't believe what I'm seeing",
+                "This is worse than we thought",
+                "Heads need to roll for this",
+                "The cover-up is real!"
+            ]
+        };
+
+        // Social media posts
+        const socialPosts = [
+            "👤 Citizens demand change!",
+            "💰 Economy is fine!",
+            "🗳️ Where is our leader?",
+            "📈 Stocks are falling!",
+            "🏥 Healthcare crisis deepens",
+            "🎓 Education funding cut",
+            "🌍 Climate protests grow",
+            "💼 Unemployment rises",
+            "🏠 Housing prices soar",
+            "🚗 Infrastructure crumbling"
+        ];
+
+        // News ticker headlines
+        const newsHeadlines = [
+            "BREAKING: Minister posts another meme!",
+            "Citizens confused by latest policy",
+            "Opposition demands answers",
+            "Approval ratings fluctuate wildly",
+            "Social media strategy questioned",
+            "Press office remains silent",
+            "Scandal brewing in government",
+            "Minister's Twitter account hacked?",
+            "Public trust at all-time low",
+            "Emergency cabinet meeting called",
+            "Protesters gather outside parliament",
+            "Minister spotted at coffee shop",
+            "New reform bill causes uproar",
+            "Opposition leader calls for resignation"
+        ];
+
+        // Public comments for speech bubbles
+        const publicComments = [
+            "This is chaos!",
+            "What's happening?",
+            "I don't trust them",
+            "Finally some action!",
+            "This is ridiculous",
+            "Where's the transparency?",
+            "I'm confused...",
+            "This can't be real",
+            "We need change!",
+            "Stop the madness!",
+            "Is this a joke?",
+            "I'm losing hope",
+            "Something's fishy",
+            "We deserve better"
+        ];
+
+        // Activity feed events
+        const activityEvents = [
+            { text: "+200 new followers joined", type: "positive" },
+            { text: "Scandal video leaked!", type: "negative" },
+            { text: "Opposition launched meme campaign", type: "negative" },
+            { text: "Trending on #Politics", type: "neutral" },
+            { text: "Media attention rising", type: "neutral" },
+            { text: "+500 retweets on latest post", type: "positive" },
+            { text: "Fact-checkers flag your statement", type: "negative" },
+            { text: "Celebrity endorsement received", type: "positive" },
+            { text: "Protest organized against you", type: "negative" },
+            { text: "Poll numbers fluctuating", type: "neutral" },
+            { text: "Viral meme created about you", type: "negative" },
+            { text: "Supporters rally online", type: "positive" },
+            { text: "Breaking: Investigation launched", type: "negative" },
+            { text: "International media coverage", type: "neutral" }
+        ];
+
+        // Advisor messages
+        const advisorMessages = [
+            "Maybe try being honest for once? Just kidding, that never works in politics.",
+            "Your approval rating is like my patience - running dangerously low.",
+            "Have you considered blaming the weather? It's worked before.",
+            "The people want transparency. Give them a window, not a mirror.",
+            "Your scandal level is higher than my coffee intake. That's concerning.",
+            "Perhaps it's time to hire a better PR team? Or any PR team?",
+            "The opposition is gaining ground. Time to dig up some dirt!",
+            "Your followers are dropping faster than my expectations.",
+            "Maybe announce a new policy? Something about... puppies?",
+            "The press is circling like vultures. Feed them something shiny."
+        ];
+
+        // Trending topics data
+        const trendingTopics = [
+            { hashtag: "#CrisisTok", posts: "12.5K", color: "blue" },
+            { hashtag: "#PumpFunPolicy", posts: "8.2K", color: "green" },
+            { hashtag: "#AIRevolt", posts: "15.8K", color: "red" },
+            { hashtag: "#ScandalWatch", posts: "22.1K", color: "orange" },
+            { hashtag: "#VoteNow", posts: "18.7K", color: "purple" },
+            { hashtag: "#TruthMatters", posts: "9.3K", color: "indigo" }
+        ];
+
+        // Comment reactions
+        const commentReactions = [
+            { text: "This is exactly what we needed!", sentiment: "positive" },
+            { text: "Finally someone taking action!", sentiment: "positive" },
+            { text: "I don't believe a word of this", sentiment: "negative" },
+            { text: "More empty promises...", sentiment: "negative" },
+            { text: "When will this madness end?", sentiment: "negative" },
+            { text: "Great leadership in tough times", sentiment: "positive" },
+            { text: "This is getting out of hand", sentiment: "negative" },
+            { text: "We support you 100%!", sentiment: "positive" },
+            { text: "Time for new leadership", sentiment: "negative" },
+            { text: "Keep fighting the good fight!", sentiment: "positive" }
+        ];
+
+        // Action outcomes
+        const outcomes = {
+            hopeful: [
+                { message: "Your optimistic message resonates!", followers: 5, approval: 8, scandal: -2, reaction: "📈 Popularity +8" },
+                { message: "Citizens appreciate the positivity", followers: 3, approval: 5, scandal: 0, reaction: "👍 Trust +5" },
+                { message: "Some call it empty promises", followers: -2, approval: -3, scandal: 5, reaction: "😒 Cynicism +5" }
+            ],
+            blame: [
+                { message: "Your base loves the finger-pointing!", followers: 8, approval: 3, scandal: 8, reaction: "🔥 Controversy +8" },
+                { message: "Opposition fires back hard", followers: -5, approval: -8, scandal: 12, reaction: "💥 Scandal +12" },
+                { message: "Moderates are turned off", followers: -3, approval: -10, scandal: 3, reaction: "😞 Trust -10" }
+            ],
+            reform: [
+                { message: "Bold reform announcement!", followers: 10, approval: 12, scandal: -5, reaction: "⭐ Leadership +12" },
+                { message: "Critics question feasibility", followers: 2, approval: -2, scandal: 3, reaction: "🤔 Doubt +3" },
+                { message: "Reform details are vague", followers: -1, approval: -5, scandal: 7, reaction: "❓ Confusion +7" }
+            ]
+        };
+
+        function updateMetrics() {
+            // Clamp values
+            gameState.followers = Math.max(0, Math.min(100, gameState.followers));
+            gameState.approval = Math.max(0, Math.min(100, gameState.approval));
+            gameState.scandal = Math.max(0, Math.min(100, gameState.scandal));
+            gameState.campaignFund = Math.max(0, gameState.campaignFund);
+
+            // Update bars
+            document.getElementById('followersBar').style.width = gameState.followers + '%';
+            document.getElementById('approvalBar').style.width = gameState.approval + '%';
+            document.getElementById('scandalBar').style.width = gameState.scandal + '%';
+
+            // Update text
+            document.getElementById('followersText').textContent = gameState.followers + 'K';
+            document.getElementById('approvalText').textContent = gameState.approval + '%';
+            document.getElementById('scandalText').textContent = gameState.scandal + '%';
+
+            // Update campaign fund
+            const fundElement = document.getElementById('campaignFund');
+            fundElement.textContent = '$' + gameState.campaignFund + 'K';
+            if (gameState.campaignFund <= 10) {
+                fundElement.className = 'text-2xl font-bold fund-warning';
+            } else if (gameState.campaignFund <= 30) {
+                fundElement.className = 'text-2xl font-bold text-orange-600';
+            } else {
+                fundElement.className = 'text-2xl font-bold text-green-600';
+            }
+
+            // Apply glitch effects when scandal is high
+            const cards = document.querySelectorAll('.twitter-card');
+            if (gameState.scandal > 70) {
+                cards.forEach(card => {
+                    if (Math.random() < 0.3) {
+                        card.classList.add('glitch-effect');
+                        setTimeout(() => card.classList.remove('glitch-effect'), 300);
+                    }
+                });
+            }
+
+            // Update background color based on approval
+            const body = document.getElementById('gameBody');
+            if (gameState.approval > 70) {
+                body.className = 'bg-green-50 bg-transition min-h-full overflow-hidden';
+            } else if (gameState.approval > 40) {
+                body.className = 'bg-gray-50 bg-transition min-h-full overflow-hidden';
+            } else if (gameState.approval > 20) {
+                body.className = 'bg-orange-50 bg-transition min-h-full overflow-hidden';
+            } else {
+                body.className = 'bg-red-50 bg-transition min-h-full overflow-hidden';
+            }
+
+            // Check for fund depletion
+            if (gameState.campaignFund <= 0 && !document.getElementById('fundWarningOverlay').classList.contains('flex')) {
+                showFundWarning();
+            }
+
+            // Check for election trigger
+            if (gameState.interactions >= 8 && !gameState.electionTriggered) {
+                gameState.electionTriggered = true;
+                setTimeout(() => {
+                    showElectionResults();
+                }, 2000);
+            }
+        }
+
+        function addChatMessage(messageType = 'neutral') {
+            const chatContainer = document.getElementById('chatMessages');
+            const user = chatUsers[Math.floor(Math.random() * chatUsers.length)];
+            
+            let messageArray;
+            switch(messageType) {
+                case 'positive':
+                    messageArray = chatMessages.positive;
+                    break;
+                case 'negative':
+                    messageArray = chatMessages.negative;
+                    break;
+                case 'scandal':
+                    messageArray = chatMessages.scandal;
+                    break;
+                default:
+                    messageArray = chatMessages.neutral;
+            }
+            
+            const message = messageArray[Math.floor(Math.random() * messageArray.length)];
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message flex items-start gap-2';
+            messageDiv.innerHTML = `
+                <div class="w-6 h-6 ${user.color} text-white text-xs flex items-center justify-center font-bold">${user.avatar}</div>
+                <div class="flex-1">
+                    <div class="text-xs text-gray-500">${user.name}</div>
+                    <div class="text-sm text-gray-800">${message}</div>
+                </div>
+                <div class="text-xs text-gray-400">now</div>
+            `;
+            
+            chatContainer.appendChild(messageDiv);
+            
+            // Remove old messages to prevent overflow
+            while (chatContainer.children.length > 8) {
+                chatContainer.removeChild(chatContainer.firstChild);
+            }
+            
+            // Auto-scroll to bottom
+            const chatScrollContainer = document.getElementById('chatContainer');
+            chatScrollContainer.scrollTop = chatScrollContainer.scrollHeight;
+            
+            // Update online count
+            const onlineCount = document.getElementById('onlineCount');
+            const currentCount = parseInt(onlineCount.textContent.replace(/[^\d]/g, ''));
+            const change = Math.floor(Math.random() * 20) - 10; // -10 to +10
+            const newCount = Math.max(800, currentCount + change);
+            onlineCount.textContent = `${newCount.toLocaleString()} online`;
+            
+            // Update sentiment
+            updateChatSentiment(messageType);
+        }
+
+        function updateChatSentiment(lastMessageType) {
+            const sentiments = ['Positive', 'Mixed', 'Negative', 'Angry', 'Confused', 'Hopeful'];
+            let sentiment;
+            
+            if (gameState.approval > 70) {
+                sentiment = Math.random() < 0.7 ? 'Positive' : 'Hopeful';
+            } else if (gameState.approval > 40) {
+                sentiment = Math.random() < 0.6 ? 'Mixed' : 'Confused';
+            } else if (gameState.scandal > 60) {
+                sentiment = Math.random() < 0.8 ? 'Angry' : 'Negative';
+            } else {
+                sentiment = 'Mixed';
+            }
+            
+            document.getElementById('chatStats').textContent = `📊 Sentiment: ${sentiment}`;
+        }
+
+        function showTypingIndicator() {
+            const chatContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator flex items-center gap-2 p-2';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="w-6 h-6 bg-gray-400 text-white text-xs flex items-center justify-center font-bold">...</div>
+                <div class="text-xs text-gray-500 italic">Several people are typing...</div>
+            `;
+            
+            chatContainer.appendChild(typingDiv);
+            
+            // Auto-scroll to bottom
+            const chatScrollContainer = document.getElementById('chatContainer');
+            chatScrollContainer.scrollTop = chatScrollContainer.scrollHeight;
+            
+            // Remove typing indicator after 2 seconds
+            setTimeout(() => {
+                const indicator = document.getElementById('typingIndicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }, 2000);
+        }
+
+        function createSpeechBubble() {
+            const comment = publicComments[Math.floor(Math.random() * publicComments.length)];
+            const bubble = document.createElement('div');
+            bubble.className = 'speech-bubble';
+            bubble.textContent = comment;
+            
+            // Random position
+            const x = Math.random() * (window.innerWidth - 200);
+            const y = Math.random() * (window.innerHeight - 200) + 100;
+            
+            bubble.style.left = x + 'px';
+            bubble.style.top = y + 'px';
+            
+            document.body.appendChild(bubble);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (bubble.parentNode) {
+                    bubble.parentNode.removeChild(bubble);
+                }
+            }, 3000);
+        }
+
+        function toggleSilenceCritics() {
+            gameState.silenceCriticsActive = !gameState.silenceCriticsActive;
+            const btn = document.getElementById('silenceCritics');
+            const status = document.getElementById('pressStatus');
+            
+            if (gameState.silenceCriticsActive) {
+                btn.classList.add('active');
+                btn.textContent = '🤐 Silencing...';
+                status.textContent = 'Censoring';
+                status.className = 'text-red-600 text-sm font-medium';
+                
+                // Slight metrics change
+                gameState.scandal += 5;
+                gameState.approval -= 3;
+                updateMetrics();
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '🤐 Silence Critics';
+                status.textContent = 'Normal';
+                status.className = 'text-green-600 text-sm font-medium';
+            }
+        }
+
+        function toggleHireBots() {
+            if (gameState.campaignFund < 15) {
+                showFundWarning();
+                return;
+            }
+
+            gameState.hireBotsActive = !gameState.hireBotsActive;
+            const btn = document.getElementById('hireBots');
+            const status = document.getElementById('pressStatus');
+            
+            if (gameState.hireBotsActive) {
+                btn.classList.add('active');
+                btn.textContent = '🤖 Bots Active';
+                status.textContent = 'Manipulating';
+                status.className = 'text-red-600 text-sm font-medium';
+                
+                // Cost and metrics change
+                gameState.campaignFund -= 15;
+                gameState.followers += 8;
+                gameState.scandal += 7;
+                updateMetrics();
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '🤖 Hire Bots';
+                status.textContent = 'Normal';
+                status.className = 'text-green-600 text-sm font-medium';
+            }
+        }
+
+        function updateActivityFeed() {
+            const feed = document.getElementById('activityFeed');
+            const randomEvent = activityEvents[Math.floor(Math.random() * activityEvents.length)];
+            
+            const newActivity = document.createElement('div');
+            newActivity.className = 'activity-item';
+            
+            if (randomEvent.type === 'positive') {
+                newActivity.classList.add('text-green-600');
+            } else if (randomEvent.type === 'negative') {
+                newActivity.classList.add('text-red-600');
+            } else {
+                newActivity.classList.add('text-blue-600');
+            }
+            
+            newActivity.textContent = randomEvent.text;
+            
+            feed.insertBefore(newActivity, feed.firstChild);
+            
+            // Keep only 3 items
+            while (feed.children.length > 3) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        function updateTrendingTopics() {
+            const container = document.getElementById('trendingTopics');
+            const randomTrend = container.children[Math.floor(Math.random() * container.children.length)];
+            
+            if (randomTrend) {
+                randomTrend.classList.add('trending-spike');
+                setTimeout(() => {
+                    randomTrend.classList.remove('trending-spike');
+                }, 1000);
+                
+                // Update trend bar width
+                const trendBar = randomTrend.querySelector('.trend-bar');
+                const newWidth = Math.min(100, Math.random() * 40 + 60);
+                trendBar.style.width = newWidth + '%';
+            }
+        }
+
+        function showPressConference() {
+            document.getElementById('pressConferenceOverlay').classList.remove('hidden');
+            document.getElementById('pressConferenceOverlay').classList.add('flex');
+        }
+
+        function showAdvisor() {
+            const advisorText = document.getElementById('advisorText');
+            const randomMessage = advisorMessages[Math.floor(Math.random() * advisorMessages.length)];
+            
+            advisorText.textContent = '';
+            advisorText.classList.add('typing-effect');
+            
+            // Typing effect
+            let i = 0;
+            const typeWriter = () => {
+                if (i < randomMessage.length) {
+                    advisorText.textContent += randomMessage.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    advisorText.classList.remove('typing-effect');
+                }
+            };
+            
+            document.getElementById('advisorOverlay').classList.remove('hidden');
+            document.getElementById('advisorOverlay').classList.add('flex');
+            
+            setTimeout(typeWriter, 500);
+            
+            // Apply random effect based on advice
+            setTimeout(() => {
+                const effect = Math.random();
+                if (effect < 0.3) {
+                    gameState.approval += Math.floor(Math.random() * 5) + 1;
+                } else if (effect < 0.6) {
+                    gameState.scandal += Math.floor(Math.random() * 3) + 1;
+                } else {
+                    gameState.followers += Math.floor(Math.random() * 3) + 1;
+                }
+                updateMetrics();
+            }, 2000);
+        }
+
+        function showComments() {
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = '';
+            
+            // Generate 3 random comments
+            for (let i = 0; i < 3; i++) {
+                const reaction = commentReactions[Math.floor(Math.random() * commentReactions.length)];
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-lg';
+                
+                const textColor = reaction.sentiment === 'positive' ? 'text-green-700' : 'text-red-700';
+                
+                commentDiv.innerHTML = `
+                    <div class="${textColor} text-sm">${reaction.text}</div>
+                    <button class="like-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-xs" data-sentiment="${reaction.sentiment}">
+                        👍 <span class="like-count">0</span>
+                    </button>
+                `;
+                
+                commentsList.appendChild(commentDiv);
+            }
+            
+            document.getElementById('commentOverlay').classList.remove('hidden');
+            document.getElementById('commentOverlay').classList.add('flex');
+        }
+
+        function showFundWarning() {
+            document.getElementById('fundWarningOverlay').classList.remove('hidden');
+            document.getElementById('fundWarningOverlay').classList.add('flex');
+        }
+
+        function showElectionResults() {
+            const yourVotes = Math.max(10, gameState.approval + Math.floor(Math.random() * 20) - 10);
+            const oppositionVotes = 100 - yourVotes;
+            
+            document.getElementById('yourVotes').textContent = yourVotes + '%';
+            document.getElementById('oppositionVotes').textContent = oppositionVotes + '%';
+            
+            const resultElement = document.getElementById('electionResult');
+            if (yourVotes > 50) {
+                resultElement.textContent = '🎉 Congratulations! You won by sheer luck!';
+                resultElement.className = 'text-lg font-bold mb-6 text-green-600';
+            } else {
+                resultElement.textContent = '😅 You lost, but hey, at least you tried!';
+                resultElement.className = 'text-lg font-bold mb-6 text-red-600';
+            }
+            
+            document.getElementById('electionOverlay').classList.remove('hidden');
+            document.getElementById('electionOverlay').classList.add('flex');
+        }
+
+        function addSocialPost() {
+            const feed = document.getElementById('socialFeed');
+            const randomPost = socialPosts[Math.floor(Math.random() * socialPosts.length)];
+            const newPost = document.createElement('div');
+            newPost.className = 'feed-item cursor-pointer hover:bg-gray-100 transition-colors';
+            newPost.textContent = randomPost;
+            
+            // Make posts clickable to show comments
+            newPost.addEventListener('click', showComments);
+            
+            feed.insertBefore(newPost, feed.firstChild);
+            
+            // Remove old posts to prevent overflow
+            while (feed.children.length > 4) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        function showPopup(outcome) {
+            document.getElementById('popupTitle').textContent = 'Action Result';
+            document.getElementById('popupMessage').textContent = outcome.message;
+            document.getElementById('popupReaction').textContent = outcome.reaction;
+            document.getElementById('popupOverlay').classList.remove('hidden');
+            document.getElementById('popupOverlay').classList.add('flex');
+        }
+
+        function handleAction(actionType) {
+            const possibleOutcomes = outcomes[actionType];
+            const outcome = possibleOutcomes[Math.floor(Math.random() * possibleOutcomes.length)];
+            
+            // Update game state
+            gameState.followers += outcome.followers;
+            gameState.approval += outcome.approval;
+            gameState.scandal += outcome.scandal;
+            gameState.interactions++;
+            
+            updateMetrics();
+            addSocialPost();
+            showPopup(outcome);
+            
+            // Show typing indicator first
+            showTypingIndicator();
+            
+            // Add chat reactions based on action outcome
+            setTimeout(() => {
+                let messageType = 'neutral';
+                if (outcome.approval > 5) {
+                    messageType = 'positive';
+                } else if (outcome.approval < -3 || outcome.scandal > 8) {
+                    messageType = 'negative';
+                } else if (outcome.scandal > 5) {
+                    messageType = 'scandal';
+                }
+                
+                // Add 2-3 chat messages with slight delays
+                addChatMessage(messageType);
+                
+                setTimeout(() => {
+                    addChatMessage(Math.random() < 0.7 ? messageType : 'neutral');
+                }, 1500);
+                
+                if (Math.random() < 0.6) {
+                    setTimeout(() => {
+                        addChatMessage('neutral');
+                    }, 3000);
+                }
+            }, 2500);
+            
+            // Check for crisis after 5+ interactions
+            if (gameState.interactions >= 5 && (gameState.scandal > 70 || gameState.approval < 20)) {
+                setTimeout(() => {
+                    document.getElementById('popupOverlay').classList.add('hidden');
+                    document.getElementById('crisisOverlay').classList.remove('hidden');
+                    document.getElementById('crisisOverlay').classList.add('flex');
+                }, 2000);
+            }
+        }
+
+        function restartGame() {
+            gameState = {
+                followers: 50,
+                approval: 60,
+                scandal: 20,
+                interactions: 0,
+                silenceCriticsActive: false,
+                hireBotsActive: false,
+                campaignFund: 100,
+                electionTriggered: false
+            };
+            updateMetrics();
+            
+            // Close all overlays
+            document.getElementById('crisisOverlay').classList.add('hidden');
+            document.getElementById('crisisOverlay').classList.remove('flex');
+            document.getElementById('electionOverlay').classList.add('hidden');
+            document.getElementById('electionOverlay').classList.remove('flex');
+            
+            // Reset press office buttons
+            document.getElementById('silenceCritics').classList.remove('active');
+            document.getElementById('silenceCritics').textContent = '🤐 Silence Critics';
+            document.getElementById('hireBots').classList.remove('active');
+            document.getElementById('hireBots').textContent = '🤖 Hire Bots';
+            document.getElementById('pressStatus').textContent = 'Normal';
+            document.getElementById('pressStatus').className = 'text-green-600 text-sm font-medium';
+            
+            // Reset feed
+            const feed = document.getElementById('socialFeed');
+            feed.innerHTML = `
+                <div class="feed-item cursor-pointer hover:bg-gray-100 transition-colors">👤 Citizens demand change!</div>
+                <div class="feed-item cursor-pointer hover:bg-gray-100 transition-colors">💰 Economy is fine!</div>
+                <div class="feed-item cursor-pointer hover:bg-gray-100 transition-colors">🗳️ Where is our leader?</div>
+            `;
+            
+            // Add click listeners to initial posts
+            feed.querySelectorAll('.feed-item').forEach(post => {
+                post.addEventListener('click', showComments);
+            });
+            
+            // Reset chat
+            const chatContainer = document.getElementById('chatMessages');
+            chatContainer.innerHTML = `
+                <div class="chat-message flex items-start gap-2">
+                    <div class="w-6 h-6 bg-blue-500 text-white text-xs flex items-center justify-center font-bold">A</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500">Anonymous_User_1</div>
+                        <div class="text-sm text-gray-800">What is happening with our government?</div>
+                    </div>
+                    <div class="text-xs text-gray-400">now</div>
+                </div>
+                
+                <div class="chat-message flex items-start gap-2">
+                    <div class="w-6 h-6 bg-green-500 text-white text-xs flex items-center justify-center font-bold">C</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500">Citizen_2024</div>
+                        <div class="text-sm text-gray-800">We need real change, not just promises!</div>
+                    </div>
+                    <div class="text-xs text-gray-400">1m</div>
+                </div>
+                
+                <div class="chat-message flex items-start gap-2">
+                    <div class="w-6 h-6 bg-purple-500 text-white text-xs flex items-center justify-center font-bold">V</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500">VoterMom</div>
+                        <div class="text-sm text-gray-800">Finally someone is listening to us</div>
+                    </div>
+                    <div class="text-xs text-gray-400">2m</div>
+                </div>
+            `;
+            
+            // Reset chat stats
+            document.getElementById('onlineCount').textContent = '1,247 online';
+            document.getElementById('chatStats').textContent = '📊 Sentiment: Mixed';
+            
+            // Reset activity feed
+            const activityFeed = document.getElementById('activityFeed');
+            activityFeed.innerHTML = `
+                <div class="activity-item text-green-600">+200 new followers</div>
+                <div class="activity-item text-blue-600">Trending on #Politics</div>
+                <div class="activity-item text-orange-600">Media attention rising</div>
+            `;
+            
+            // Initialize first chat message
+            setTimeout(() => addChatMessage('neutral'), 3000);
+        }
+
+        // Event listeners
+        document.getElementById('hopefulBtn').addEventListener('click', () => handleAction('hopeful'));
+        document.getElementById('blameBtn').addEventListener('click', () => handleAction('blame'));
+        document.getElementById('reformBtn').addEventListener('click', () => handleAction('reform'));
+        document.getElementById('silenceCritics').addEventListener('click', toggleSilenceCritics);
+        document.getElementById('hireBots').addEventListener('click', toggleHireBots);
+        document.getElementById('pressConference').addEventListener('click', showPressConference);
+        document.getElementById('askAdvisor').addEventListener('click', showAdvisor);
+        
+        document.getElementById('popupClose').addEventListener('click', () => {
+            document.getElementById('popupOverlay').classList.add('hidden');
+            document.getElementById('popupOverlay').classList.remove('flex');
+        });
+        document.getElementById('restartBtn').addEventListener('click', restartGame);
+        document.getElementById('restartFromElection').addEventListener('click', restartGame);
+
+        // Press conference event listeners
+        document.querySelectorAll('.press-statement').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const statement = e.target.dataset.statement;
+                let effect = {};
+                
+                switch(statement) {
+                    case 'control':
+                        effect = { approval: 5, scandal: -3, followers: 2 };
+                        break;
+                    case 'fine':
+                        effect = { approval: -2, scandal: 8, followers: -1 };
+                        break;
+                    case 'next':
+                        effect = { approval: -5, scandal: 12, followers: 3 };
+                        break;
+                }
+                
+                gameState.approval += effect.approval;
+                gameState.scandal += effect.scandal;
+                gameState.followers += effect.followers;
+                gameState.interactions++;
+                
+                updateMetrics();
+                
+                document.getElementById('pressConferenceOverlay').classList.add('hidden');
+                document.getElementById('pressConferenceOverlay').classList.remove('flex');
+            });
+        });
+
+        document.getElementById('closePressConference').addEventListener('click', () => {
+            document.getElementById('pressConferenceOverlay').classList.add('hidden');
+            document.getElementById('pressConferenceOverlay').classList.remove('flex');
+        });
+
+        document.getElementById('closeAdvisor').addEventListener('click', () => {
+            document.getElementById('advisorOverlay').classList.add('hidden');
+            document.getElementById('advisorOverlay').classList.remove('flex');
+        });
+
+        document.getElementById('closeComments').addEventListener('click', () => {
+            document.getElementById('commentOverlay').classList.add('hidden');
+            document.getElementById('commentOverlay').classList.remove('flex');
+        });
+
+        document.getElementById('closeFundWarning').addEventListener('click', () => {
+            document.getElementById('fundWarningOverlay').classList.add('hidden');
+            document.getElementById('fundWarningOverlay').classList.remove('flex');
+        });
+
+        // Like button functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('like-btn') || e.target.parentElement.classList.contains('like-btn')) {
+                const btn = e.target.classList.contains('like-btn') ? e.target : e.target.parentElement;
+                const countSpan = btn.querySelector('.like-count');
+                const sentiment = btn.dataset.sentiment;
+                
+                btn.classList.add('like-animation');
+                setTimeout(() => btn.classList.remove('like-animation'), 600);
+                
+                const currentCount = parseInt(countSpan.textContent);
+                countSpan.textContent = currentCount + 1;
+                
+                // Apply effect based on sentiment
+                if (sentiment === 'positive') {
+                    gameState.approval += 2;
+                } else {
+                    gameState.approval -= 1;
+                }
+                
+                updateMetrics();
+            }
+        });
+
+        // Make initial feed posts clickable
+        document.querySelectorAll('.feed-item').forEach(post => {
+            post.addEventListener('click', showComments);
+        });
+
+        // Start timers
+        setInterval(() => addChatMessage('neutral'), 6000); // Add neutral chat message every 6 seconds
+        setInterval(createSpeechBubble, 4000); // New speech bubble every 4 seconds
+        setInterval(updateActivityFeed, 7000); // Update activity feed every 7 seconds
+        setInterval(updateTrendingTopics, 12000); // Update trending topics every 12 seconds
+        
+        // Occasional random chat activity
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                showTypingIndicator();
+            }
+        }, 10000);
+
+        // Element SDK implementation
+        async function render(config) {
+            document.getElementById('gameTitle').textContent = config.game_title || defaultConfig.game_title;
+            document.getElementById('crisisMessage').textContent = config.crisis_message || defaultConfig.crisis_message;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["game_title", config.game_title || defaultConfig.game_title],
+                ["crisis_message", config.crisis_message || defaultConfig.crisis_message]
+            ]);
+        }
+
+        // Initialize SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                render,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        // Initialize game
+        updateMetrics();
+        
+        // Create initial speech bubble after 2 seconds
+        setTimeout(createSpeechBubble, 2000);
+        
+        // Initialize chat activity
+        setTimeout(() => addChatMessage('neutral'), 4000);
+        setTimeout(() => addChatMessage('neutral'), 8000);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9933157124b868ef',t:'MTc2MTI0MTg5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
